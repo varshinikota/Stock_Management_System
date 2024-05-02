@@ -1,0 +1,1 @@
+This project helps keep track of stocks and investments. It uses a database to store information like stock details, transactions, and investor data. You can find out things like how much money investors have or the value of their stocks. It's helpful for making smart decisions about buying and selling stocks in the stock market.
