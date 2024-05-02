@@ -1,0 +1,46 @@
+----------------------------------------------------VIEWS---------------------------------------------------------
+------------------------------------------------------------------------------------------------------------------
+
+CREATE VIEW PortfolioDetails AS
+SELECT p.PortfolioID, i.FirstName, i.LastName, s.StockSymbol, s.CompanyName, p.PurchasePrice, p.QuantityOwned
+FROM Portfolio p
+JOIN Investor i ON p.InvestorID = i.InvestorID
+JOIN Stock s ON p.StockID = s.StockID;
+
+SELECT * FROM PortfolioDetails;
+
+
+
+CREATE VIEW TransactionDetails AS
+SELECT t.TransactionID, i.FirstName, i.LastName, s.StockSymbol, t.TransactionType, t.Quantity, t.TransactionPrice
+FROM Transaction t
+JOIN Investor i ON t.InvestorID = i.InvestorID
+JOIN Stock s ON t.StockID = s.StockID;
+
+SELECT * FROM TransactionDetails;
+
+
+
+CREATE VIEW PortfolioTotalValue AS
+SELECT p.PortfolioID, SUM(p.PurchasePrice * p.QuantityOwned) AS TotalValue
+FROM Portfolio p
+GROUP BY p.PortfolioID;
+
+SELECT * FROM PortfolioTotalValue;
+
+
+
+CREATE VIEW InvestorContact AS
+SELECT InvestorID, Email, Phone
+FROM Investor;
+
+SELECT * FROM InvestorContact;
+
+
+
+CREATE VIEW StockMarketData AS
+SELECT s.StockSymbol, m.Date, m.OpenPrice, m.ClosePrice, m.HighPrice, m.LowPrice
+FROM MarketData m
+JOIN Stock s ON m.StockID = s.StockID; 
+
+SELECT * FROM StockMarketData;

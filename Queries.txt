@@ -1,0 +1,18 @@
+--------------------------------------------------QUERIES-------------------------------------------------------
+----------------------------------------------------------------------------------------------------------------
+
+SELECT AccountBalance
+FROM Investor
+WHERE InvestorID = 101;
+
+SELECT SUM(Quantity * TransactionPrice) AS TotalValue
+FROM Transaction
+WHERE StockID = 2;
+
+SELECT *
+FROM Transaction
+WHERE InvestorID = 103;
+
+SELECT MAX(ClosePrice) AS HighestClosingPrice
+FROM MarketData
+WHERE StockID = 3;

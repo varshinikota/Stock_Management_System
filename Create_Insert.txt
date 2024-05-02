@@ -1,0 +1,102 @@
+---------------------------------------------CREATE AND INSERT-----------------------------------------------
+-------------------------------------------------------------------------------------------------------------
+
+CREATE DATABASE SMS;
+USE SMS;
+CREATE TABLE Stock (
+    StockID INT PRIMARY KEY,
+    StockSymbol VARCHAR(10) NOT NULL,
+    CompanyName VARCHAR(100) NOT NULL,
+    CurrentPrice DECIMAL(10, 2) NOT NULL,
+    Sector VARCHAR(50),
+    QuantityAvailable INT
+);
+DESC Stock;
+
+CREATE TABLE Portfolio (
+    PortfolioID INT PRIMARY KEY,
+    InvestorID INT,
+    StockID INT,
+    PurchasePrice DECIMAL(10, 2) NOT NULL,
+    PurchaseDate DATE NOT NULL,
+    QuantityOwned INT,
+    FOREIGN KEY (InvestorID) REFERENCES Investor(InvestorID),
+    FOREIGN KEY (StockID) REFERENCES Stock(StockID)
+);
+
+DESC Portfolio;
+
+CREATE TABLE Transaction (
+    TransactionID INT PRIMARY KEY,
+    InvestorID INT,
+    StockID INT,
+    TransactionType ENUM('Buy', 'Sell') NOT NULL,
+    Quantity INT NOT NULL,
+    TransactionPrice DECIMAL(10, 2) NOT NULL,
+    FOREIGN KEY (InvestorID) REFERENCES Investor(InvestorID),
+    FOREIGN KEY (StockID) REFERENCES Stock(StockID)
+);
+
+DESC Transaction;
+
+CREATE TABLE Investor (
+    InvestorID INT PRIMARY KEY,
+    FirstName VARCHAR(50) NOT NULL,
+    LastName VARCHAR(50) NOT NULL,
+    Email VARCHAR(100),
+    Phone VARCHAR(20),
+    AccountBalance DECIMAL(15, 2) NOT NULL
+);
+DESC Investor;
+
+CREATE TABLE MarketData (
+    MarketDataID INT PRIMARY KEY,
+    StockID INT,
+    Date DATE NOT NULL,
+    OpenPrice DECIMAL(10, 2) NOT NULL,
+    ClosePrice DECIMAL(10, 2) NOT NULL,
+    HighPrice DECIMAL(10, 2) NOT NULL,
+    LowPrice DECIMAL(10, 2) NOT NULL,
+    FOREIGN KEY (StockID) REFERENCES Stock(StockID)
+);
+DESC MarketData;
+
+INSERT INTO Stock (StockID, StockSymbol, CompanyName, CurrentPrice, Sector, QuantityAvailable)
+VALUES
+(1, 'AAPL', 'Apple Inc.', 127.79, 'Technology', 1000),
+(2, 'GOOGL', 'Alphabet Inc.', 2325.02, 'Technology', 1500),
+(3, 'MSFT', 'Microsoft Corporation', 251.86, 'Technology', 2000),
+(4, 'AMZN', 'Amazon.com Inc.', 3232.58, 'Technology', 800),
+(5, 'FB', 'Meta Platforms Inc.', 312.46, 'Technology', 1200);
+
+INSERT INTO Portfolio (PortfolioID, InvestorID, StockID, PurchasePrice, PurchaseDate, QuantityOwned)
+VALUES
+(1, 101, 1, 125.00, '2024-04-15', 50),
+(2, 101, 2, 2300.00, '2024-04-18', 100),
+(3, 102, 1, 130.00, '2024-04-20', 30),
+(4, 102, 3, 250.00, '2024-04-22', 40),
+(5, 103, 4, 3200.00, '2024-04-25', 20);
+
+INSERT INTO Transaction (TransactionID, InvestorID, StockID, TransactionType, Quantity, TransactionPrice)
+VALUES
+(1, 101, 1, 'Buy', 50, 127.50),
+(2, 102, 2, 'Buy', 100, 2320.00),
+(3, 103, 3, 'Buy', 40, 250.00),
+(4, 104, 4, 'Sell', 20, 3220.00),
+(5, 105, 5, 'Buy', 30, 310.00);
+
+INSERT INTO Investor (InvestorID, FirstName, LastName, Email, Phone, AccountBalance)
+VALUES
+(101, 'John', 'Doe', 'john.doe@example.com', '1234567890', 50000.00),
+(102, 'Alice', 'Smith', 'alice.smith@example.com', '9876543210', 75000.00),
+(103, 'Bob', 'Johnson', 'bob.johnson@example.com', '5555555555', 100000.00),
+(104, 'Emily', 'Williams', 'emily.williams@example.com', '9999999999', 85000.00),
+(105, 'Michael', 'Brown', 'michael.brown@example.com', '1111111111', 60000.00);
+
+INSERT INTO MarketData (MarketDataID, StockID, Date, OpenPrice, ClosePrice, HighPrice, LowPrice)
+VALUES
+(1, 1, '2024-04-01', 130.00, 127.79, 135.00, 127.00),
+(2, 1, '2024-04-02', 128.00, 129.20, 131.50, 127.50),
+(3, 2, '2024-04-01', 2320.00, 2325.02, 2335.50, 2317.00),
+(4, 2, '2024-04-02', 2327.00, 2330.50, 2340.00, 2325.00),
+(5, 3, '2024-04-01', 250.00, 251.86, 255.00, 249.50);
